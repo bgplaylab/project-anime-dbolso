@@ -1,10 +1,10 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
+
+import { Ionicons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StackScreenProps } from '@react-navigation/stack';
-import { HeaderButton } from 'components/HeaderButton';
 
 import { RootStackParamList } from '.';
-import TabNavigator from './tab-navigator';
 import Home from '../screens/home';
 
 type Props = StackScreenProps<RootStackParamList, 'DrawerNavigator'>;
@@ -20,16 +20,6 @@ export default function DrawerNavigator({ navigation }: Props) {
         options={{
           drawerIcon: ({ size, color }) => (
             <Ionicons name="home-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Tabs"
-        component={TabNavigator}
-        options={{
-          headerRight: () => <HeaderButton onPress={() => navigation.navigate('Modal')} />,
-          drawerIcon: ({ size, color }) => (
-            <MaterialIcons name="border-bottom" size={size} color={color} />
           ),
         }}
       />

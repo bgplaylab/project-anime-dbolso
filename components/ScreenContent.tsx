@@ -16,7 +16,7 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
   useEffect(() => {
     const getTodos = async () => {
       try {
-        const { data: todos, error } = await supabase.from('todos').select();
+        const { data: todos, error } = await supabase.from('artigo').select();
 
         if (error) {
           console.error('Error fetching todos:', error.message);
@@ -24,6 +24,7 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
         }
 
         if (todos && todos.length > 0) {
+          console.log(todos);
           setTodos(todos);
         }
       } catch (error:any) {
