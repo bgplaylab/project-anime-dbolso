@@ -1,34 +1,40 @@
 import React from 'react';
-
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { HeaderButton } from '../components/HeaderButton';
+import { TabBarIcon } from '../components/TabBarIcon';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TabOneScreen from 'screens/one';
+import TabTwoScreen from 'screens/two';
 
-import DrawerNavigator from './drawer-navigator';
-import Modal from '../screens/modal';
+const Tab = createBottomTabNavigator();
 
-export type RootStackParamList = {
-  DrawerNavigator: undefined;
-  Modal: undefined;
-  TabNavigator: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
-
-export default function RootStack() {
+export default function Navigation() {
+  
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DrawerNavigator">
-        <Stack.Screen
-          name="DrawerNavigator"
-          component={DrawerNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Modal"
-          component={Modal}
-          options={{ presentation: 'modal', headerLeft: () => null }}
-        />
-      </Stack.Navigator>
+      <Tab.Navigator
+            screenOptions={{
+              tabBarActiveTintColor: 'black',
+      
+              headerShown: false,
+            }}>
+            <Tab.Screen
+              name="One"
+              component={TabOneScreen}
+              options={{
+                title: 'Tab One',
+                tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+              }}
+            />
+            <Tab.Screen
+              name="Two"
+              component={TabTwoScreen}
+              options={{
+                title: 'Tab Two',
+                tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+              }}
+            />
+          </Tab.Navigator>
     </NavigationContainer>
   );
 }

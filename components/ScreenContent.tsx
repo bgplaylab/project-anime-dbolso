@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Image } from 'react-native';
 import { supabase } from '../utils/supabase';
-
-import { EditScreenInfo } from './EditScreenInfo';
 
 type ScreenContentProps = {
   title: string;
@@ -38,11 +36,18 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
   return (
     <View className={styles.container}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Todo List</Text>
         <FlatList
           data={todos}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Text key={item.id}>{item.title}</Text>}
+          keyExtractor={(item) => item.ani_id}
+          renderItem={({ item }) => {
+            return (
+              <View className='flex-col gap-2 bg-white shadow-sm mx-4 my-2 p-4 rounded-md'>
+                <Image source={{ uri: item.imagem }} className='rounded-md w-full h-80' resizeMode='contain'/>
+                <Text className='bg-slate-500 px-4 py-2 rounded-sm font-semibold text-white'>{item.titulo}</Text>
+                <Text className=''>{item.descricao}</Text>
+              </View>
+            );
+          }}
         />
       </View>
     </View>
