@@ -8,7 +8,7 @@ type ScreenContentProps = {
   children?: React.ReactNode;
 };
 
-export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
+export const ScreenContent = () => {
   const [todos, setTodos] = useState<any>([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
           console.log(todos);
           setTodos(todos);
         }
-      } catch (error:any) {
+      } catch (error: any) {
         console.error('Error fetching todos:', error.message);
       }
     };
@@ -41,10 +41,16 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
           keyExtractor={(item) => item.ani_id}
           renderItem={({ item }) => {
             return (
-              <View className='flex-col gap-2 bg-white shadow-sm mx-4 my-2 p-4 rounded-md'>
-                <Image source={{ uri: item.imagem }} className='rounded-md w-full h-80' resizeMode='contain'/>
-                <Text className='bg-slate-500 px-4 py-2 rounded-sm font-semibold text-white'>{item.titulo}</Text>
-                <Text className=''>{item.descricao}</Text>
+              <View className="mx-4 my-2 flex-col gap-2 rounded-md bg-white p-4 shadow-sm">
+                <Image
+                  source={{ uri: item.imagem }}
+                  className="h-80 w-full rounded-md"
+                  resizeMode="contain"
+                />
+                <Text className="rounded-sm bg-slate-500 px-4 py-2 font-semibold text-white">
+                  {item.titulo}
+                </Text>
+                <Text className="">{item.descricao}</Text>
               </View>
             );
           }}

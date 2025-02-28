@@ -18,16 +18,16 @@ const GET_ANIME = `
 `;
 
 export function useAniList() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   const fetchAnime = async (search: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const result:any = await anilistClient.request(GET_ANIME, { search });
+      const result: any = await anilistClient.request(GET_ANIME, { search });
       setData(result.Media);
     } catch (err: any) {
       setError(err);
