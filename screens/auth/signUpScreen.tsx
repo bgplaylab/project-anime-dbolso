@@ -1,18 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Text, TextInput, Button, Alert, View, Image, Pressable } from 'react-native';
-import { supabase } from 'utils/supabase'; // Certifique-se que o caminho está correto
+import { Text, TextInput, Alert, View, Pressable, Image } from 'react-native';
+import { supabase } from 'utils/supabase';
 
-export default function AuthScreen() {
+export default function SignUpScreen() {
   const navigation = useNavigation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -20,9 +21,9 @@ export default function AuthScreen() {
     setLoading(false);
 
     if (error) {
-      // Exibe um alerta de erro
       Alert.alert('Erro', error.message);
     } else {
+      Alert.alert('Sucesso', 'Verifique seu email para confirmar o cadastro!');
     }
   };
 
@@ -33,11 +34,11 @@ export default function AuthScreen() {
         className="my-6 h-48 w-full scale-75"
         resizeMode="cover"
       />
-      <Text className="mb-6 mt-6 text-center text-4xl font-semibold text-white">Login</Text>
+      <Text className="mb-6 mt-6 text-center text-4xl font-semibold text-white">Criar Conta</Text>
 
       <View className="mb-4 rounded-lg bg-[#1E1E1E] px-4 py-10">
         <TextInput
-          className="mb-4 h-12 rounded-lg border-b-2 border-gray-300 focus:border-[#1ACEC8]  px-4 text-white"
+          className="mb-4 h-12 rounded-lg border-b-2 focus:border-[#1ACEC8] border-gray-300 px-4 text-white"
           placeholder="E-mail"
           placeholderTextColor={'#fff'}
           value={email}
@@ -46,7 +47,7 @@ export default function AuthScreen() {
         />
         <View className="relative">
           <TextInput
-            className="mb-4 h-12 rounded-lg border-b-2 border-gray-300 focus:border-[#1ACEC8] px-4 text-white"
+            className="mb-4 h-12 rounded-lg border-b-2 focus:border-[#1ACEC8] border-gray-300 px-4 text-white"
             placeholder="Senha"
             placeholderTextColor={'#fff'}
             value={password}
@@ -60,19 +61,24 @@ export default function AuthScreen() {
           </Text>
         </View>
 
-        <Text className="text-md text-start text-white" onPress={() => navigation.navigate('Remember')} >Esqueceu a senha?</Text>
+        <Text className="text-xs text-start text-white">
+          Mínimo de 6 caracteres, sem espaços em branco
+        </Text>
       </View>
       <Pressable
         className="group mt-4 rounded-md border-2 border-[#1ACEC8] bg-black px-4 py-2 active:bg-[#1ACEC8]"
-        onPress={handleLogin}
+        onPress={handleSignUp}
         disabled={loading}>
         <Text className="text-center text-2xl font-semibold text-[#1ACEC8] group-active:text-white">
-          Entrar
+          Criar Conta
         </Text>
       </Pressable>
 
       <Text className="mt-6 text-center text-lg text-white">
-        Não possui uma conta? <Text className="text-[#1ACEC8]" onPress={() => navigation.navigate('SignIn')} >CRIE UMA</Text>
+        Já possui uma conta?{' '}
+        <Text className="text-[#1ACEC8]" onPress={() => navigation.navigate('Login')}>
+          LOGIN
+        </Text>
       </Text>
     </View>
   );

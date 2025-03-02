@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { useAniList } from '../hooks/useAnilist';
 
-export default function TabTwoScreen() {
+export default function GenerosScreen() {
   const { data, loading, error, fetchAnime } = useAniList();
 
   // Chama a função fetchAnime somente se não houver dados (evita chamadas desnecessárias)

@@ -1,35 +1,30 @@
 import './global.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { supabase } from 'utils/supabase'; // Supondo que você tenha o Supabase configurado corretamente
 import RootStack from './navigation';
-import AuthScreen from 'screens/auth/authScreen';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
-  const [user, setUser] = React.useState(null);
-
-  React.useEffect(() => {
-    // Obtém a sessão atual
-    const fetchSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+  useEffect(() => {
+    const prepareApp = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync(); // Mantém a Splash ativa até carregar
+        // Simula carregamento (exemplo: carregar fontes, dados, etc.)
+        await new Promise(resolve => setTimeout(resolve, 2000)); 
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        await SplashScreen.hideAsync(); // Esconde a Splash
+      }
     };
 
-    fetchSession();
-
-    // Assine para monitorar mudanças na autenticação
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-    });
-
-    // Limpeza do listener quando o componente for desmontado
-    return () => {
-      authListener?.unsubscribe(); // Assegure-se de chamar unsubscribe corretamente
-    };
+    prepareApp();
   }, []);
 
-  return <NavigationContainer>{user ? <RootStack /> : <AuthScreen />}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
+  );
 }

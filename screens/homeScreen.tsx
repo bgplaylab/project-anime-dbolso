@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-native';
 import { View, Text, FlatList, Image } from 'react-native';
 import { supabase } from '../utils/supabase';
 
@@ -8,8 +9,17 @@ type ScreenContentProps = {
   children?: React.ReactNode;
 };
 
-export const ScreenContent = () => {
+export default function HomeScreen() {
   const [todos, setTodos] = useState<any>([]);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Erro ao deslogar:', error.message);
+    } else {
+      console.log('Usuário deslogado');
+    }
+  };
 
   useEffect(() => {
     const getTodos = async () => {
@@ -55,10 +65,13 @@ export const ScreenContent = () => {
             );
           }}
         />
+        <Button title="Sair" onPress={handleLogout} />
+
       </View>
     </View>
   );
-};
+}
+
 const styles = {
   container: `items-center flex-1 justify-center`,
   separator: `h-[1px] my-7 w-4/5 bg-gray-200`,
